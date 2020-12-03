@@ -25,7 +25,7 @@ public class DBDataLoader implements CommandLineRunner {
      */
 
     @Override
-    public void run(String ... args) throws Exception {
+    public void run(String... args) throws Exception {
 
         Pet dog = new Pet();
         dog.setName("Dog");

@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface PetMapper {
 
-    PetMapper INSTANCE = Mappers.getMapper( PetMapper.class );
+    PetMapper INSTANCE = Mappers.getMapper(PetMapper.class);
 
     PetDTO petToPetDTO(Pet pet);
 }
