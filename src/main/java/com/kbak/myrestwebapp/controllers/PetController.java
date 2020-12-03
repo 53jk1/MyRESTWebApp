@@ -5,17 +5,13 @@ import com.kbak.myrestwebapp.api.model.PetListDTO;
 import com.kbak.myrestwebapp.services.PetService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Kacper Bąk on 03.12.2020
  */
 
-@Controller
+@RestController
 @RequestMapping("/api/pet/")
 public class PetController {
 
@@ -26,15 +22,34 @@ public class PetController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<PetDTO> getPetById(@PathVariable Long id) {
-        return new ResponseEntity<PetDTO>(petService.getPetById(id), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public PetDTO getPetById(@PathVariable Long id) {
+        return petService.getPetById(id);
     }
 
 
-    @GetMapping("findByStatus")
-    public ResponseEntity<PetListDTO> getPetsByStatus(@RequestParam String status) {
+    @GetMapping("findByStatus/{status}")
+    public ResponseEntity<PetListDTO> getPetsByStatus(@PathVariable String status) {
         return new ResponseEntity<PetListDTO>(
                 new PetListDTO(petService.getPetByStatus(status)), HttpStatus.OK
         );
+    }
+
+    @PostMapping
+    public ResponseEntity<PetDTO> createNewPet(@RequestBody PetDTO petDTO) {
+        return new ResponseEntity<PetDTO>(petService.createNewPet(petDTO), HttpStatus.CREATED);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<PetDTO> updatePet(@PathVariable Long id, @RequestBody PetDTO petDTO) {
+        return new ResponseEntity<PetDTO>(petService.updatePet(id, petDTO), HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deletePet(@PathVariable Long id) {
+
+        petService.deletePetById(id);
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

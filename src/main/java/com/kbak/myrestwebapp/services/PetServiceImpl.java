@@ -2,6 +2,7 @@ package com.kbak.myrestwebapp.services;
 
 import com.kbak.myrestwebapp.api.mapper.PetMapper;
 import com.kbak.myrestwebapp.api.model.PetDTO;
+import com.kbak.myrestwebapp.domain.Pet;
 import com.kbak.myrestwebapp.repositories.PetRepository;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +43,30 @@ public class PetServiceImpl implements PetService {
                 .stream()
                 .map(petMapper::petToPetDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PetDTO createNewPet(PetDTO petDTO) {
+
+        Pet pet = petMapper.petDTOToPet(petDTO);
+        Pet savedPet = petRepository.save(pet);
+
+        return petMapper.petToPetDTO(savedPet);
+    }
+
+    @Override
+    public PetDTO updatePet(Long id, PetDTO petDTO) {
+
+        Pet pet = petMapper.petDTOToPet(petDTO);
+        pet.setId(id);
+
+        Pet savedPet = petRepository.save(pet);
+
+        return petMapper.petToPetDTO(savedPet);
+    }
+
+    @Override
+    public void deletePetById(Long id) {
+        petRepository.deleteById(id);
     }
 }
