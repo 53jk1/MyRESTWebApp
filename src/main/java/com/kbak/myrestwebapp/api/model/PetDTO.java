@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 @Data
-public class PetDTO implements List<PetDTO> {
+public class PetDTO {
     Long id;
     String name;
     String status;
